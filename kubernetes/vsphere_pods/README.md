@@ -12,7 +12,7 @@ Then, you can choose to donwload kubectl with the vsphere plugin. Place these tw
 
 To connect do:
 ````console
-kubectl vsphere login --server=<IP-of-the-webpage-you-got-when-clicking-link-to-cli-tools>
+kubectl vsphere login --server=<IP-of-the-webpage-you-got-when-clicking-link-to-cli-tools> --insecure-skip-tls-verify
 ````
 
 Switch to the newly created namespace using:
