@@ -1,6 +1,7 @@
 # Basic web app - adapted for vSphere with Kubernetes
 
 This is a sample application. It might be tempting to use this awesome application in a production environment: **do not use this app in production**.
+Find the adapted deployments for running in Tanzu Kubernetes, vSphere pods and Google Kubernetes engine in their respective subfolders of the 'kubernetes' folder.
 
 vSphere with Kubernetes installation
 ---
