@@ -10,7 +10,7 @@ https://www.virtuallyghetto.com/2020/04/deploying-a-minimal-vsphere-with-kuberne
 
 https://github.com/lamw/vghetto-vsphere-with-kubernetes-external-nsxt-automated-lab-deployment
 
-The deployment script in this repo is the same as in the repo above, this is **not** my own. All credits for it and the guides go to the original creator.
+The deployment script *vghetto-vsphere-with-kubernetes-external-nsxt-lab-deployment.ps1* in this repo is the same as in the repo above, this is **not** my own. All credits for it and the guides go to the original creator.
 
 **I will now explain what I had to change and configure in these guides to get it installed**
 
