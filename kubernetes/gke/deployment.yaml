@@ -1,26 +1,12 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
- name: allow-all
-spec:
- podSelector: {}
- ingress:
- - {}
- egress:
- - {}
- policyTypes:
- - Ingress
- - Egress
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   # Name must start with longhorn-...
-  name: standard-postgres-pvc-vsp
+  name: standard-postgres-pvc
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: pacific-gold-storage-policy
+  storageClassName: standard
   resources:
     requests:
       storage: 1Gi
@@ -123,7 +109,7 @@ spec:
       volumes:
         - name: postgres
           persistentVolumeClaim:
-            claimName: standard-postgres-pvc-vsp
+            claimName: standard-postgres-pvc
 status: { }
 ---
 apiVersion: v1
@@ -207,10 +193,6 @@ spec:
       labels:
         app: api
     spec:
-      volumes:
-        - name: dshm
-          emptyDir:
-            medium: Memory
       containers:
       -
         env:
@@ -226,9 +208,6 @@ spec:
           value: student_user
         image: eslih/basic-webapp-api:v1.1.2
         name: api
-        volumeMounts:
-          - mountPath: /dev/shm
-            name: dshm
         resources:
           requests:
             memory: "64Mi"
@@ -269,3 +248,22 @@ spec:
 #          - backend:
 #              serviceName: api
 #              servicePort: 8080
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: scaler
+spec:
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 50
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  maxReplicas: 10
+  scaleTargetRef:
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    name: api
