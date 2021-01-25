@@ -65,24 +65,31 @@ Add the small ESXi hosts too the datacenter as well, but not in the cluster. To 
 
 ---
 **If all requirements are met, you can configure vSAN with the vSAN quickstart wizard:**
+
 ![](https://i.imgur.com/92OZJn6.png)
 
 Add the physical network interface to the Dswitch:
+
 ![](https://i.imgur.com/63PXuh0.png)
 
 Assign static IPs for vSAN traffic to the hosts:
+
 ![](https://i.imgur.com/u8fAPLT.png)
 
 In advanced options, choose "two node cluster", I set up these NTP servers:
+
 ![](https://i.imgur.com/XKU8Rhh.png)
 
 Claim the HDDs for capacity and the SSDs for cache:
+
 ![](https://i.imgur.com/OtIQfBy.png)
 
 Select the small ESXi host as witness:
+
 ![](https://i.imgur.com/QvUsgGK.png)
 
 Claim the witness host disks:
+
 ![](https://i.imgur.com/WoO3uGV.png)
 
 vSAN setup is now complete
@@ -90,6 +97,7 @@ vSAN setup is now complete
 ---
 
 When vSAN is fully configured, go to the DSwitch settings and set the MTU to a value of 1600:
+
 ![](https://i.imgur.com/x90WFTJ.png)
 
 Using SSH or ESXi shell, run this command on each ESXi node in the vSAN cluster (otherwise you will have problems using nested ESXi instances
@@ -103,6 +111,7 @@ Nested vSphere with Kubernetes installation
 Install PowerShell Core 7.0.0 and PowerCLI 12.0.0 on your pc (other versions might cause problems)
 
 Change the 3 variables in the beginning of the script so they contain the correct values for your vCenter server. Also change the path to the OVA files:
+
 ![](https://i.imgur.com/t7fh9Xx.png)
 
 In the minimal version of this script, we use **one** of each of these appliances with at least these specifications:
@@ -120,12 +129,14 @@ $clearVSANHealthCheckAlarm = 0
 $moveVMsIntovApp = 0
 ````
 Also check these values:
+
 ![](https://i.imgur.com/0RbkoZK.png)
 Some of them point to where the nested environment will be deployed to, like VMDatacenter, VMCluster and VMDatastore.
 
 To make it easier I marked all lines that need to be checked/changed with **CHECKTHISLINE**
 
 When the script is adapted to our configuration, we can run it in Powershell Core:
+
 ![](https://i.imgur.com/zUYLw2d.png)
 ![](https://i.imgur.com/wkuMmWp.png)
 
@@ -146,6 +157,7 @@ Now, to avoid another error I got we have to do the following:
 On every switch (physical (if managed), vswitch, dswitch, nested dswitch) change the MTU to 1600.
 
 On every vmware network (nested & not-nested) under 'security' allow 'promiscuous mode' and 'forged transmits':
+
 ![](https://i.imgur.com/VdVPG18.png)
 
 Only after doing these two things, I got everything working.
@@ -156,23 +168,29 @@ In a webbrowser, go to https://ip-of-your-nsxt-manager and login with the creden
 It's possible you get an error message instead of the GUI. If this is the case, wait a while and try again, or try restarting the NSX manager VM (it can take more than 10 minutes for the GUI to come back sometimes)
 
 On the dashboard, click on Tier 0 gateway (disregard differences in the other settings, the NSX T in this screenshot was already running):
+
 ![](https://i.imgur.com/tAeFWO6.png)
 
 Click on the 3 dots next to Pacific-T0-Gateway and choose edit
 
 Open the 'interfaces' tab:
+
 ![](https://i.imgur.com/Bg2kBbW.png)
 
 Create a new interface with the following settings (IP address can be different depending on your configuration):
+
 ![](https://i.imgur.com/7yQFRG8.png)
 
 Save this interface and then go to 'routes' and click on 'static routes':
+
 ![](https://i.imgur.com/hymjzjz.png)
 
 Add a static route like this one:
+
 ![](https://i.imgur.com/68cLnH4.png)
 
 Next hop looks like this (to your default gateway):
+
 ![](https://i.imgur.com/5n7WQAF.png)
 
 ---
@@ -185,5 +203,6 @@ https://github.com/lamw/vghetto-vsphere-with-kubernetes-external-nsxt-automated-
 Enabling this feature can take quite a while. Seeing a few errors is not abnormal either. If it takes longer than an hour and a half, something is probably wrong.
 
 Do you see 'config status: running'? Congratulations, you now have vSphere 7 with Kubernetes!
+
 ![](https://i.imgur.com/itnVyDR.png)
 
