@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: dataaccess
+spec:
+    containers:
+    - name: alpine
+      image: alpine:latest
+      command: ['sleep', 'infinity']
+      volumeMounts:
+      - name: standard-postgres-pvc
+        mountPath: /data
+    volumes:
+    - name: standard-postgres-pvc
+      persistentVolumeClaim:
+        claimName: standard-postgres-pvc
