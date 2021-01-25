@@ -19,7 +19,7 @@ Scale down the postgres deployment to 0. This way no data is being modified whil
 kubectl scale deployment.apps/postgres --replicas=0
 ````
 
-Now we create a new pod. This pod mounts the peristent volume that the postgres pod uses under /data (see datamounter.yaml):
+Now we create a new pod. This pod mounts the persistent volume that the postgres pod uses under /data (see datamounter.yaml):
 ````console
 kubectl apply -f .\datamounter.yaml
 ````
