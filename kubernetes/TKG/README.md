@@ -25,6 +25,7 @@ In this deployment, we also create a 'PodSecurityPolicy'. The one used here is t
 
 Because we installed the metrics server, we can also use a horizontal pod autoscaler. This HPA will scale the number of pods from 1 to 10, depending on the average load across the pods...
 
+I used a loadbalancer instead of ingress, because ingress did not give me an external IP address. The loadbalancer did. In the case of this application, they perform the same task anyways.
 In this deployment, we can find the external IP address of our application using:
 ````console
 kubectl get all
